@@ -15,5 +15,24 @@ export default function QueryProcessor(query: string): string {
     return "jzheng5";
   }
 
+  query = query.toLowerCase().trim();
+
+  // Handle addition questions (e.g., "72 plus 89" or "What is 4 plus 6?")
+  let plusMatch = query.match(/(\d+)\s+plus\s+(\d+)/);
+  if (plusMatch) {
+    let num1 = parseInt(plusMatch[1], 10);
+    let num2 = parseInt(plusMatch[2], 10);
+    return (num1 + num2).toString();
+  }
+
+  // Handle largest number questions
+  if (query.includes("largest")) {
+    let numbers = query.match(/-?\d+(\.\d+)?/g);
+    if (numbers) {
+      let max = Math.max(...numbers.map(Number));
+      return max.toString();
+    }
+  }
+
   return "";
 }
