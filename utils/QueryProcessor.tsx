@@ -50,5 +50,16 @@ export default function QueryProcessor(query: string): string {
       }
     }
   }
+
+  // Handle multiplication questions 
+  let multiplyMatch = query.match(/(\d+)\s+multiplied\s+(\d+)/);
+  if (multiplyMatch) {
+    let num1 = parseInt(multiplyMatch[1], 10);
+    let num2 = parseInt(multiplyMatch[2], 10);
+    return (num1 * num2).toString();
+  }
+
+  // Handle prime number questions
+  
   return "";
 }
