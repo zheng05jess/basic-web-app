@@ -36,14 +36,18 @@ export default function QueryProcessor(query: string): string {
 
   // Handle which numbers are both a square and a cube
   if (query.includes("both a square and a cube")) {
-    let numbers = query.match(/-?\d+(\.\d+)?/g);
-    if(numbers) {
-      let result = numbers.map(Number).filter(num => {
-        let cubeRoot = Math.cbrt(num);
-        let squareRoot = Math.sqrt(num);
-        return Number.isInteger(cubeRoot) && Number.isInteger(squareRoot);
-      });
-      return result.join(", ");
+    let numbers = query.match(/\d+/g);
+    if (!numbers) return "No numbers found.";
+
+    for (let numStr of numbers) {
+      let num = parseInt(numStr, 10);
+
+      let sqrt = Math.sqrt(num);
+      let cbrt = Math.cbrt(num);
+
+      if (Number.isInteger(sqrt) && Number.isInteger(cbrt)) {
+        return num.toString();
+      }
     }
   }
   return "";
