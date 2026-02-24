@@ -25,6 +25,18 @@ export default function QueryProcessor(query: string): string {
     return (num1 + num2).toString();
   }
 
+  // Handle multiple plus questions
+  let multiplePlusMatch = query.match(/(\d+)\s+plus\s+(\d+(?:\s+plus\s+\d+)*)/);
+  if (multiplePlusMatch) {
+    let num1 = parseInt(multiplePlusMatch[1], 10);
+    let rest = multiplePlusMatch[2];
+    let numbers = rest.match(/\d+/g);
+    if (numbers) {
+      let sum = num1 + numbers.map(Number).reduce((a, b) => a + b, 0);
+      return sum.toString();
+    }
+  }
+
   // Handle largest number questions
   if (query.includes("largest")) {
     let numbers = query.match(/-?\d+(\.\d+)?/g);
@@ -93,5 +105,14 @@ export default function QueryProcessor(query: string): string {
       return Math.pow(base, exponent).toString(); 
     }
   }
+
+  // Handle plus and multiply questions
+  let plusMultiplyMatch = query.match(/(\d+)\s+plus\s+(\d+)\s+multiplied\s+by\s+(\d+)/);
+  if (plusMultiplyMatch) {
+    let num1 = parseInt(plusMultiplyMatch[1], 10);
+    let num2 = parseInt(plusMultiplyMatch[2], 10);
+    let num3 = parseInt(plusMultiplyMatch[3], 10);
+    return (num1 + num2 * num3).toString();
+  }   
   return "";
 }
