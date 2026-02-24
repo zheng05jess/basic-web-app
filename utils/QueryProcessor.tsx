@@ -59,7 +59,30 @@ export default function QueryProcessor(query: string): string {
     return (num1 * num2).toString();
   }
 
+  // Handle minus number questions
+  let minusMatch = query.match(/(\d+)\s+minus\s+(\d+)/);
+  if (minusMatch) {
+    let num1 = parseInt(minusMatch[1], 10);
+    let num2 = parseInt(minusMatch[2], 10);
+    return (num1 - num2).toString();
+  }
+
   // Handle prime number questions
-  
+  if (query.includes("prime")) {
+    let numbers = query.match(/\d+/g);
+    if (!numbers) return "No numbers found.";
+
+    let primes = numbers.filter(numStr => {
+      let num = parseInt(numStr, 10);
+      if (num < 2) return false;
+      for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
+      }
+      return true;
+    });
+
+    return primes.join(", ");
+  } 
+
   return "";
 }
