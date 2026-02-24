@@ -97,13 +97,11 @@ export default function QueryProcessor(query: string): string {
   } 
 
   // Handles powers
-  if (query.includes("power")) {
-    let powerMatch = query.match(/(\d+)\s+to the power of\s+(\d+)/);
-    if (powerMatch) {
-      let base = parseInt(powerMatch[1], 10);
-      let exponent = parseInt(powerMatch[2], 10);
-      return Math.pow(base, exponent).toString(); 
-    }
+  let powerMatch = query.match(/(\d+)\s+to the power of\s+(\d+)/);
+  if (powerMatch) {
+    let base = parseInt(powerMatch[1], 10);
+    let exponent = parseInt(powerMatch[2], 10);
+    return Math.pow(base, exponent).toString(); 
   }
 
   // Handle plus and multiply questions
@@ -113,6 +111,15 @@ export default function QueryProcessor(query: string): string {
     let num2 = parseInt(plusMultiplyMatch[2], 10);
     let num3 = parseInt(plusMultiplyMatch[3], 10);
     return (num1 + num2 * num3).toString();
+  }   
+
+  // Handle multiply plus 
+  let multiplyPlusMatch = query.match(/(\d+)\s+multiplied\s+by\s+(\d+)\s+plus\s+(\d+)/);
+  if (multiplyPlusMatch) {
+    let num1 = parseInt(multiplyPlusMatch[1], 10);
+    let num2 = parseInt(multiplyPlusMatch[2], 10);
+    let num3 = parseInt(multiplyPlusMatch[3], 10);
+    return (num1 * num2 + num3).toString();
   }   
   return "";
 }
