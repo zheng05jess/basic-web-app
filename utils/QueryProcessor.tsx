@@ -84,5 +84,14 @@ export default function QueryProcessor(query: string): string {
     return primes.join(", ");
   } 
 
+  // Handles powers
+  if (query.includes("power")) {
+    let powerMatch = query.match(/(\d+)\s+to the power of\s+(\d+)/);
+    if (powerMatch) {
+      let base = parseInt(powerMatch[1], 10);
+      let exponent = parseInt(powerMatch[2], 10);
+      return Math.pow(base, exponent).toString(); 
+    }
+  }
   return "";
 }
